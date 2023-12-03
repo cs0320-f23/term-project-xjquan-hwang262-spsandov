@@ -22,6 +22,7 @@ public class CoordsDataSource {
   private HashMap<String, List<Double>> coordsData;
 
   public CoordsDataSource() {
+    // set up cache, will delete every 1 hour
     this.cache = CacheBuilder.newBuilder()
         .expireAfterWrite(1, TimeUnit.HOURS)
         .build();
@@ -42,6 +43,12 @@ public class CoordsDataSource {
     return clientConnection;
   }
 
+  /**
+   * Method returning user inputted locations to its corresponding coordinates
+   * @param locations inputs from user
+   * @return map containing the location and its coordinates
+   * @throws DataSourceException
+   */
   public Map<String, List<Double>> getCoords(List<String> locations) throws DataSourceException {
     try {
       String accessToken = System.getenv("ACCESS_TOKEN");
@@ -51,6 +58,7 @@ public class CoordsDataSource {
       if (!locations.isEmpty()) {
         for (String location : locations) {
           List<Double> cachedCoords = cache.getIfPresent(location);
+          //checks that it is not already in the cache to minimize number of api calls made
           if (cachedCoords == null) {
             URL requestURL = new URL(
                 "https://api.mapbox.com/geocoding/v5/mapbox.places/" + location
@@ -64,6 +72,7 @@ public class CoordsDataSource {
                 .isEmpty()) {
               List<Double> coordinates = featureCollection.getFeatures().get(0).getGeometry()
                   .getCoordinates();
+              //add to cache for future reference
               cache.put(location, coordinates);
               coordsData.put(location, coordinates);
             }
@@ -71,6 +80,7 @@ public class CoordsDataSource {
             coordsData.put(location, cachedCoords);
           }
         }
+        //returns the dictionary mapping location name to its coordinates
         return coordsData;
       }
       throw new DataSourceException(

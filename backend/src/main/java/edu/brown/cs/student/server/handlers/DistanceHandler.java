@@ -4,7 +4,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class DiatanceHandler implements Route {
+public class DistanceHandler implements Route {
 
   @Override
   public Object handle(Request request, Response response) throws Exception {

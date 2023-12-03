@@ -10,6 +10,11 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * Handler that handles the /geoCoding endpoint. Contains instance of CoordsDataSource
+ * to get Coordinates for the user inputted locations.
+ */
+
 public class CoordsHandler implements Route {
 
   private CoordsDataSource source;
@@ -18,7 +23,14 @@ public class CoordsHandler implements Route {
     this.source = new CoordsDataSource();
   }
 
-
+  /**
+   * Handle method for the geoCoding endpoint, returning either a failure response with error
+   * error message or success response with locations mapping to their coordinates
+   * @param request  The request object providing information about the HTTP request
+   * @param response The response object providing functionality for modifying the response
+   * @return response in form of json depending on the success or failure of request
+   * @throws Exception
+   */
   @Override
   public Object handle(Request request, Response response) throws Exception {
     try {
@@ -36,6 +48,12 @@ public class CoordsHandler implements Route {
     }
   }
 
+  /**
+   * Failure Response record that will be returned in the case of a bad request or encountering of
+   * exception
+   * @param result
+   * @param error_message
+   */
   public record CoordsFailureResponse(String result, String error_message) {
 
     /**
@@ -50,7 +68,7 @@ public class CoordsHandler implements Route {
   }
 
   /**
-   * A record representing a successful call to the /coords handler, containing a result of success,
+   * A record representing a successful call to the /geoCoding handler, containing a result of success,
    * as well as the coordinates for the inputted location
    */
   public record CoordsSuccessResponse(

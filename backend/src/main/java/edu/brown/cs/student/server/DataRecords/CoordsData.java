@@ -1,4 +1,4 @@
-package edu.brown.cs.student.server;
+package edu.brown.cs.student.server.DataRecords;
 
 import java.util.HashMap;
 import java.util.List;

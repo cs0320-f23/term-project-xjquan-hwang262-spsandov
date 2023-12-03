@@ -1,4 +1,4 @@
-package edu.brown.cs.student.server;
+package edu.brown.cs.student.server.DataSources;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -16,6 +16,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okio.Buffer;
 
+/**
+ * Class that handles most of the coords API call and returns data to the handler
+ */
 public class CoordsDataSource {
 
   private Cache<String, List<Double>> cache;
@@ -58,11 +61,10 @@ public class CoordsDataSource {
       if (!locations.isEmpty()) {
         for (String location : locations) {
           List<Double> cachedCoords = cache.getIfPresent(location);
-          //checks that it is not already in the cache to minimize number of api calls made
+          String locUrl = location.replace(" ","%20");
           if (cachedCoords == null) {
             URL requestURL = new URL(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/" + location
-                    + ".json?proximity=ip&access_token=" + accessToken);
+                "https://api.mapbox.com/geocoding/v5/mapbox.places/" + locUrl + ".json?proximity=ip&access_token=" + accessToken);
             HttpURLConnection clientConnection = connect(requestURL);
             JsonAdapter<FeatureCollection> jsonAdapter = moshi.adapter(FeatureCollection.class);
             FeatureCollection featureCollection = jsonAdapter.fromJson(

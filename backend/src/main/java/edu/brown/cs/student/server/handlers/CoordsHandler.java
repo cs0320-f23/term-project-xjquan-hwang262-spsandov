@@ -1,8 +1,8 @@
 package edu.brown.cs.student.server.handlers;
 
 import com.squareup.moshi.Moshi;
-import edu.brown.cs.student.server.CoordsData;
-import edu.brown.cs.student.server.CoordsDataSource;
+import edu.brown.cs.student.server.DataRecords.CoordsData;
+import edu.brown.cs.student.server.DataSources.CoordsDataSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +36,7 @@ public class CoordsHandler implements Route {
     try {
 
       List<String> locations = Arrays.stream(request.queryParams("location").split(",")).toList();
+      System.out.println("locations: "+ locations);
       if (locations.isEmpty()) {
         return new CoordsFailureResponse("error_bad_request",
             "Location values are required. Please enter locations to search.").serialize();

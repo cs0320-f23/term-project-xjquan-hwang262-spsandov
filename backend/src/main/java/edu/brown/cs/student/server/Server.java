@@ -1,5 +1,6 @@
 package edu.brown.cs.student.server;
 
+import edu.brown.cs.student.server.handlers.CoordsHandler;
 import edu.brown.cs.student.server.handlers.LoadPathHandler;
 import spark.Spark;
 
@@ -18,6 +19,7 @@ public class Server {
 
     Spark.port(port);
     Spark.get("loadpath", new LoadPathHandler());
+    Spark.get("geoCoding",new CoordsHandler());
     Spark.init();
     Spark.awaitInitialization();
 

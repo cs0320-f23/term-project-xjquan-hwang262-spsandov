@@ -1,0 +1,19 @@
+{
+    "Texas_Dallas": {
+      "result": "success",
+      "broadband": {
+        "NAME": "Dallas County",
+        "S2802_C03_022E": "12345"
+      },
+      "date & time": "2023/10/27 15:30:45"
+    },
+    "Nevada_Reno": {
+      "result": "success",
+      "broadband": {
+        "NAME": "Reno County",
+        "S2802_C03_022E": "6789"
+      },
+      "date & time": "2023/10/27 15:30:55"
+    }
+  }
+  

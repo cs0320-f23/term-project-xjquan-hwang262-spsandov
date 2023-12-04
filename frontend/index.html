@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<!-- 
+    This is a reasonable starting point for the HTML in Mock.
+    Feel free to modify this as you wish.
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock</title>
+    <link rel="stylesheet" href="src/styles/main.css" type="text/css">
+</head>
+<body>
+    <!-- Tell the browser what to show if JavaScript/TypeScript is disabled. -->
+    <noscript>This example requires JavaScript to run.</noscript>
+    <!-- Prepare a region of the page to hold the entire interface, managed by React -->
+    <div id="root"></div>
+    <script type="module" src="src/index.tsx"></script>
+    <script>
+        document.addEventListener("keyup", (event) => {
+            if (event.code === "Escape") {
+                if (document.activeElement) {
+                    document.activeElement.blur(); 
+                }
+                const commandBox = document.getElementById("repl-command-box");
+                if (commandBox) {
+                    commandBox.focus();
+                    console.log("testing");
+                } else {
+                    console.log("Cannot find the REPL command box.");
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -11,8 +11,8 @@ import spark.Response;
 import spark.Route;
 
 /**
- * Handler that handles the /geoCoding endpoint. Contains instance of CoordsDataSource
- * to get Coordinates for the user inputted locations.
+ * Handler that handles the /geoCoding endpoint. Contains instance of CoordsDataSource to get
+ * Coordinates for the user inputted locations.
  */
 
 public class CoordsHandler implements Route {
@@ -24,8 +24,9 @@ public class CoordsHandler implements Route {
   }
 
   /**
-   * Handle method for the geoCoding endpoint, returning either a failure response with error
-   * error message or success response with locations mapping to their coordinates
+   * Handle method for the geoCoding endpoint, returning either a failure response with error error
+   * message or success response with locations mapping to their coordinates
+   *
    * @param request  The request object providing information about the HTTP request
    * @param response The response object providing functionality for modifying the response
    * @return response in form of json depending on the success or failure of request
@@ -34,13 +35,12 @@ public class CoordsHandler implements Route {
   @Override
   public Object handle(Request request, Response response) throws Exception {
     try {
-
-      List<String> locations = Arrays.stream(request.queryParams("location").split(",")).toList();
-      System.out.println("locations: "+ locations);
-      if (locations.isEmpty()) {
+      if (request.queryParams("location") == null || request.queryParams("location").isEmpty()) {
         return new CoordsFailureResponse("error_bad_request",
             "Location values are required. Please enter locations to search.").serialize();
       }
+
+      List<String> locations = Arrays.stream(request.queryParams("location").split(",")).toList();
       Map<String, List<Double>> coordsData = source.getCoords(locations);
       CoordsData data = new CoordsData(coordsData);
       return new CoordsSuccessResponse(data.locationCoordinates()).serialize();
@@ -52,6 +52,7 @@ public class CoordsHandler implements Route {
   /**
    * Failure Response record that will be returned in the case of a bad request or encountering of
    * exception
+   *
    * @param result
    * @param error_message
    */
@@ -69,8 +70,8 @@ public class CoordsHandler implements Route {
   }
 
   /**
-   * A record representing a successful call to the /geoCoding handler, containing a result of success,
-   * as well as the coordinates for the inputted location
+   * A record representing a successful call to the /geoCoding handler, containing a result of
+   * success, as well as the coordinates for the inputted location
    */
   public record CoordsSuccessResponse(
       String result,

@@ -20,7 +20,7 @@ export default function REPL() {
     result: string[][];
   }
   const [history, setHistory] = useState<HistoryObject[]>([]);
-  const [outputMode, setOutputMode] = useState<string>("brief");
+  const [outputMode, setOutputMode] = useState<string>("verbose");
 
   return (
     <div className="row">

@@ -1,9 +1,6 @@
 import "../styles/main.css";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { ControlledInput } from "./ControlledInput";
-import { mockBackendData } from "../mocked_data/mockedJson";
-import { mockedSearchResults } from "../mocked_data/mockedSearchJson";
-import { json } from "stream/consumers";
 import { commandsMap, registerCommand } from "../commands/commandFunctions"
 
 // Define the shape of history entries

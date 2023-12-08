@@ -1,6 +1,6 @@
 import { REPLInputProps } from "../components/REPLInput";
 import { handleModeCommand } from "../commands/modeCommand"
-import { handleLoadCSV } from "../commands/loadCommand"
+import { handleFind } from "./findCommand"
 /**
  * A command-processor function for our REPL. The function returns a Promise   
  * which resolves to a string, which is the value to print to history when 
@@ -20,6 +20,6 @@ export function registerCommand(commandName: string, handlerFunction: REPLFuncti
 }
 
 registerCommand('mode', handleModeCommand);
-registerCommand('load_file', handleLoadCSV);
+registerCommand('find', handleFind);
 
 

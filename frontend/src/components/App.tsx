@@ -1,7 +1,7 @@
 import WrappedMap from '../Map/WrappedMap';
 import '../styles/App.css';
-import Input from './Input';
 import REPL from './REPL';
+import { REPLHistory } from './REPLHistory';
 import { REPLInput } from './REPLInput';
 
 function App() {
@@ -24,23 +24,21 @@ function App() {
           alt="Brown Logo"
         />
       </p>
-
-      {/* Render the .bruno-maps and .plan-trips directly under .App */}
       <h1 className="bruno-maps">Bruno Maps</h1>
       <h2 className="plan-trips">
         Plan your trips around Brown effortlessly with our Travel Planner
       </h2>
 
       <div className="row">
-        <div className="replColumn">Enter your desired locations
+          {/* Enter your desired locations */}
         <REPL />
         </div>
-        <div className="mapColumn">
+        {/* <div className="mapColumn">
           Your best path is:
-          <REPL />
-        </div>
+          <REPLHistory />
+        </div> */}
       </div>
-    </div>
+    // </div>
   );
 }
 

@@ -20,14 +20,14 @@ public class Dijkstra {
 
   public List<String> run(){
     // Initializing
-    HashMap<String, Integer> dijkstra = new HashMap<>();
+    HashMap<String, Double> dijkstra = new HashMap<>();
     ArrayList<String> unvisited = new ArrayList<>();
     ArrayList<String> visited = new ArrayList<>();
     for(String place: this.places) {
-      dijkstra.put(place, 40075); //40075 km is Earth's Circumference
+      dijkstra.put(place, 40075.0); //40075 km is Earth's Circumference
       unvisited.add(place);
     }
-    dijkstra.put(this.start, 0);
+    dijkstra.put(this.start, 0.0);
     unvisited.remove(this.start);
     visited.add(start);
     String currentNode = start;
@@ -37,32 +37,33 @@ public class Dijkstra {
       // Find Relevant Edges
       for(int i = 0; i < this.edges.size(); i++) {
         if(currentNode.equals(this.edges.get(i).get(0))) {
-          dijkstra.put((String)this.edges.get(i).get(1), dijkstra.get(currentNode) + (int)this.edges.get(i).get(2));
+          dijkstra.put((String)this.edges.get(i).get(1), dijkstra.get(currentNode) + (double)this.edges.get(i).get(2));
         }
         else if(currentNode.equals(this.edges.get(i).get(1))) {
-          dijkstra.put((String)this.edges.get(i).get(0), dijkstra.get(currentNode) + (int)this.edges.get(i).get(2));
+          dijkstra.put((String)this.edges.get(i).get(0), dijkstra.get(currentNode) + (double)this.edges.get(i).get(2));
         }
       }
 
+      System.out.println("edges: "+ edges.get(1));
       // Delete Seen Edges
-      for(List<Object> edge: this.edges){
-        if(currentNode.equals(edge.get(0)) || currentNode.equals(edge.get(1))){
-          this.edges.remove(edge);
+      for(int i = 0; i < edges.size(); i++) {
+        if(currentNode.equals(edges.get(i).get(0)) || currentNode.equals(edges.get(i).get(1))){
+          this.edges.remove(this.edges.get(i));
         }
       }
 
       // Find Next Node
-      int min = 40075;
-      for (Map.Entry<String, Integer> entry : dijkstra.entrySet()) {
+      double min = 40075.0;
+      for (Map.Entry<String, Double> entry : dijkstra.entrySet()) {
         String key = entry.getKey();
-        int value = entry.getValue();
+        double value = entry.getValue();
         if(unvisited.contains(key) && value < min) {
           min = value;
         }
       }
-      for (Map.Entry<String, Integer> entry : dijkstra.entrySet()) {
+      for (Map.Entry<String, Double> entry : dijkstra.entrySet()) {
         String key = entry.getKey();
-        int value = entry.getValue();
+        double value = entry.getValue();
         if(unvisited.contains(key) && value == min) {
           currentNode = key;
         }

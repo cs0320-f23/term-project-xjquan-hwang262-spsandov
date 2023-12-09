@@ -5,6 +5,8 @@ import edu.brown.cs.student.server.handlers.DistanceHandler;
 import edu.brown.cs.student.server.handlers.LoadPathHandler;
 import spark.Spark;
 
+import static spark.Spark.after;
+
 /**
  * Top-level class that contains the main() method which starts Spark and runs the various handlers
  * through a Server instance.
@@ -19,6 +21,11 @@ public class Server {
     int port = 3232;
 
     Spark.port(port);
+    after(
+      (request, response) -> {
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Methods", "*");
+      });
     Spark.get("loadpath", new LoadPathHandler());
     Spark.get("geoCoding",new CoordsHandler());
     Spark.get("distance", new DistanceHandler());

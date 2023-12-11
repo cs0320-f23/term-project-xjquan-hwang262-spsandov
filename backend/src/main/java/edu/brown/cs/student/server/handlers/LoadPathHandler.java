@@ -4,7 +4,6 @@ package edu.brown.cs.student.server.handlers;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.server.DataSources.DataSourceException;
 import edu.brown.cs.student.server.Utils.Wrapper;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import spark.Request;
@@ -33,64 +32,28 @@ public class LoadPathHandler implements Route {
         return new FailureResponse("error_bad_request",
             "Location parameter is required. Please enter list of locations to search").serialize();
       }
-      ArrayList<String> locations = new ArrayList<>();
-      locations.addAll(Arrays.stream(request.queryParams("location").split(",")).toList());
 
+      String[] locArray = request.queryParams("location").split(",");
+      List<String> locations = Arrays.asList(locArray);
+
+      //crashes when there is only two locations
+      if (locations.size() <= 2) {
+        return new FailureResponse("error_bad_request",
+            "Invalid number of arguments. Please enter more than 2 locations").serialize();
+      }
 
       Wrapper wrapper = new Wrapper(locations.get(0), locations);
       List<String> path = wrapper.run();
-      System.out.println("path from load path: "+ path);
+
+      System.out.println("path from load path: " + path);
+
       return new SuccessResponse(path).serialize();
+
     } catch (DataSourceException e) {
       return new FailureResponse("error_bad_request", e.getMessage()).serialize();
     }
-
-
-
-
-//    Set<String> params = request.queryParams();
-//  List<String> locations = new java.util.ArrayList<>(
-//      List.of(request.queryParamsValues("location")));
-//  Map<String, Object> results = new HashMap<>();
-//
-//  // Error Case : Incorrect Parameters
-//    for(String param: params) {
-//    if (!param.equals("location")) {
-//      results.put("result", "error");
-//      results.put("error_msg", "Incorrect Parameters");
-//
-//      // Empty Locations (Privacy Purposes)
-//      locations.clear();
-//
-//      return serialize(results);
-//    }
-//  }
-//
-//  // Successful Case
-//    for(String location : locations) {
-//    // For Debugging Purposes
-//    System.out.println(location);
-//  }
-//
-//    results.put("result", "success");
-//  // Defensive Programming
-//    results.put("path", new ArrayList<>(locations));
-//
-//  // Empty Locations (Privacy Purposes)
-//    locations.clear();
-//
-//    return serialize(results);
   }
-//  /**
-//   * Serializes an inputted Map into json format.
-//   *
-//   * @param results - the Map to be serialized
-//   * @return a String json representation of the results Map.
-//   */
-//  public static String serialize(Map<String, Object> results) {
-//    Moshi moshi = new Moshi.Builder().build();
-//    return moshi.adapter(Map.class).toJson(results);
-//  }
+
   /**
    * Failure Response record that will be returned in the case of a bad request or encountering of
    * exception
@@ -114,13 +77,12 @@ public class LoadPathHandler implements Route {
 
 
   /**
-   * A record representing a successful call to the handler, containing a result of
-   * success, as well as the path for the inputted locations
+   * A record representing a successful call to the handler, containing a result of success, as well
+   * as the path for the inputted locations
    */
   public record SuccessResponse(
       String result,
       List<String> path
-
 
   ) {
 

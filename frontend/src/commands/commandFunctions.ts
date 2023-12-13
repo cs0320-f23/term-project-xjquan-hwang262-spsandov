@@ -1,6 +1,7 @@
 import { REPLInputProps } from "../components/REPLInput";
 import { handleModeCommand } from "../commands/modeCommand"
 import { handleFind } from "./findCommand"
+import { handleMock } from "./mockCommand";
 /**
  * A command-processor function for our REPL. The function returns a Promise   
  * which resolves to a string, which is the value to print to history when 
@@ -21,5 +22,6 @@ export function registerCommand(commandName: string, handlerFunction: REPLFuncti
 
 registerCommand('mode', handleModeCommand);
 registerCommand('find', handleFind);
+registerCommand("mock", handleMock);
 
 

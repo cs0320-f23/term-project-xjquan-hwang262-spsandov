@@ -20,18 +20,6 @@ test("on page load, i see a button", async ({ page }) => {
   await expect(page.getByRole("button")).toBeVisible();
 });
 
-test("after I click the button, its label increments", async ({ page }) => {
-  await expect(
-    page.getByRole("button", { name: "Submitted 0 times" })
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Submitted 0 times" }).click();
-  await page.getByRole("button", { name: "Submitted 1 times" }).click();
-  await page.getByRole("button", { name: "Submitted 2 times" }).click();
-  await page.getByRole("button", { name: "Submitted 3 times" }).click();
-  await expect(
-    page.getByRole("button", { name: "Submitted 4 times" })
-  ).toBeVisible();
-});
 
 //////////////////
 

@@ -31,7 +31,7 @@ export async function handleFind(args: string[]): Promise<string[][]> {
 }
 
 function makeLocationString(myArray: string[]) {
-  return myArray.join(",");
+  return myArray.join("%20");
 }
 function capitalizeFirstLetterEachWord(str: string): string {
   return str.replace(/\b\w/g, (match) => match.toUpperCase());

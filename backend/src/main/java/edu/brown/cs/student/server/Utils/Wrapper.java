@@ -46,6 +46,9 @@ public class Wrapper {
     ArrayList<String> list = new ArrayList<>();
     list.addAll(this.locations);
     Dijkstra algo = new Dijkstra(this.start, list, edges);
-    return algo.run();
+    System.out.println("before dijkstra run");
+    List<String> dijkstraOutput = algo.run();
+    System.out.println("dijkstra output: "+ dijkstraOutput);
+    return dijkstraOutput;
   }
 }

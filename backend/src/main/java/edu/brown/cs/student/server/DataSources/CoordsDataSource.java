@@ -64,7 +64,7 @@ public class CoordsDataSource {
           String locUrl = location.replace(" ","%20");
           if (cachedCoords == null) {
             URL requestURL = new URL(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/" + locUrl + ".json?proximity=ip&access_token=" + accessToken);
+                "https://api.mapbox.com/geocoding/v5/mapbox.places/" + locUrl + ".json?proximity=ip&access_token=pk.eyJ1Ijoic3BzYW5kb3YiLCJhIjoiY2xvaG42ZmU0MTR4dzJpcGVvbHFoMjhxYiJ9.PZ_G9Bd7BHljP7QroRCNLg");
             HttpURLConnection clientConnection = connect(requestURL);
             JsonAdapter<FeatureCollection> jsonAdapter = moshi.adapter(FeatureCollection.class);
             FeatureCollection featureCollection = jsonAdapter.fromJson(

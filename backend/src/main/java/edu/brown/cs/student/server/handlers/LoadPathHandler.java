@@ -38,8 +38,7 @@ public class LoadPathHandler implements Route {
 
       //crashes when there is only two locations
       if (locations.size() <= 2) {
-        return new FailureResponse("error_bad_request",
-            "Invalid number of arguments. Please enter more than 2 locations").serialize();
+        return new SuccessResponse(locations).serialize();
       }
 
       Wrapper wrapper = new Wrapper(locations.get(0), locations);

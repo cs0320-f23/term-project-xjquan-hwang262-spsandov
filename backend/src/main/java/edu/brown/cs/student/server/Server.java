@@ -7,6 +7,8 @@ import edu.brown.cs.student.server.handlers.DistanceHandler;
 import edu.brown.cs.student.server.handlers.LoadPathHandler;
 import spark.Spark;
 
+import static spark.Spark.after;
+
 /**
  * Top-level class that contains the main() method which starts Spark and runs the various handlers
  * through a Server instance.

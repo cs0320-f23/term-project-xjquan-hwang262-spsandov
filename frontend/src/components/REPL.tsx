@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import '../styles/main.css';
-import { REPLHistory } from './REPLHistory';
-import { REPLInput } from './REPLInput';
+import { useState } from "react";
+import "../styles/main.css";
+import { REPLHistory } from "./REPLHistory";
+import { REPLInput } from "./REPLInput";
 
 /* 
   You'll want to expand this component (and others) for the sprints! Remember 
@@ -19,18 +19,29 @@ export default function REPL() {
     command: string;
     result: string[][];
   }
-  const [history, setHistory] = useState<HistoryObject[]>([])
-  const [outputMode, setOutputMode] = useState<string>('brief');
+  const [history, setHistory] = useState<HistoryObject[]>([]);
+  const [outputMode, setOutputMode] = useState<string>("verbose");
 
   return (
-    <div className="repl">  
+    <div className="row">
       {/*This is where your REPLHistory might go... You also may choose to add it within your REPLInput 
       component or somewhere else depending on your component organization. What are the pros and cons of each? */}
       {/* CHANGED */}
-      <REPLHistory history ={history} outputMode={outputMode}/>
-      <hr></hr>
+      <div className="replColumn">
+        Enter your desired locations:
+        <REPLInput
+          history={history}
+          setHistory={setHistory}
+          outputMode={outputMode}
+          setOutputMode={setOutputMode}
+        />
+      </div>
+      <div className="spacer" style={{ margin: "0 30px" }}></div>
       {/* CHANGED */}
-      <REPLInput history={history} setHistory={setHistory} outputMode={outputMode} setOutputMode = {setOutputMode}/>
+      <div className="mapColumn">
+        Your best path is:
+        <REPLHistory history={history} outputMode={outputMode} />
+      </div>
     </div>
   );
 }

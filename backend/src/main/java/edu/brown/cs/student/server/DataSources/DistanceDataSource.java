@@ -84,7 +84,7 @@ public class DistanceDataSource {
       Moshi moshi = new Moshi.Builder().build();
       URL requestURL = new URL(
           "https://api.mapbox.com/directions-matrix/v1/mapbox/walking/" + coordsUrl
-              + "?sources=0&annotations=distance&access_token=" + accessToken);
+              + "?sources=0&annotations=distance&access_token=pk.eyJ1Ijoic3BzYW5kb3YiLCJhIjoiY2xvaG42ZmU0MTR4dzJpcGVvbHFoMjhxYiJ9.PZ_G9Bd7BHljP7QroRCNLg");
       HttpURLConnection clientConnection = connect(requestURL);
       JsonAdapter<DistanceResponse> jsonAdapter = moshi.adapter(DistanceResponse.class);
       DistanceResponse distanceResponse = jsonAdapter.fromJson(

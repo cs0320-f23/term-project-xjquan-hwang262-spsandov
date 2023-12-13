@@ -75,6 +75,7 @@ public class Dijkstra {
     }
 
     // Returning
+    System.out.println("end of dijkstra's run method: "+ visited);
     return visited;
   }
 

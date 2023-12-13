@@ -7,30 +7,37 @@
 .repl {
     position:relative;
     min-height:95vh;    
+    display: fixed;
 }
 
-.repl-history {      
+.repl-history {     
     height:55vh;   
     margin: auto;
     display: block;
-    overflow: scroll;    
+    overflow: scroll;  
+    font-size: 40px;  
 }
 
 .repl-input {        
     margin: auto;    
-    height:10vh;
+    height:30%;
     font-weight: bold;
+    box-sizing: border-box;
 }
 .repl-command-box {
     width: 90%;            
     margin: auto;
-    display: flex; /*block*/
+    display: flex;
     flex-flow: row wrap;
+    padding: 10px 10px;
+    font-size: 40px;
+    font-family: 'League Spartan', sans-serif;
 }
 
 button{
     margin: auto;
     display: block;
     padding: 5px 10px;
-    font-size: 12px;
+    font-size: 35px;
+    font-family: 'League Spartan', sans-serif;
 }

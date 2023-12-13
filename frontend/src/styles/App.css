@@ -1,46 +1,95 @@
 .App {
+  max-width: 100%;
+  height: 100vh;
   text-align: center;
+  background: #FFF;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
-
+.App::before {
+  content: '';
+  position: absolute;
+  top: 120px;
+  left: 10px;
+  right: 10px;
+  width: 99%;
+  height: 91.5%;
+  background-image: url(Brown-Campus-Map.png);
+  opacity: .25; /* Adjust the opacity level */
+  z-index: 0; /* Ensure the pseudo-element is behind the content */
+}
 .App-header {
-  background-color: #282c34;
-  min-height: 8vh;
   display: flex;
-  flex-direction: column;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 25px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(1px + 2vmin);
-  color: white;
+  height: 110px;
+  flex-shrink: 0;
+  background: #9A9A9A;
+  z-index: 0;
 }
-.centered-table {
-  margin: 0 auto; /* This centers the table horizontally */
-  font-weight: bold;
+.bruno-maps {
+  position: relative;
+  width: 100%;
+  margin: 50px auto;
+  flex-shrink: 0;
+  color: #000;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 120px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  z-index: 1;
 }
-.table-cell {
-  border: 1px solid #ccc; /* Add borders to the cells */
-  padding: 8px; /* Add padding to the cells for spacing */
-}
-.output-separator {
-  margin: 20px 0; /* Add some margin above and below the horizontal rule */
-  border: 0; /* Remove default border */
-  border-top: 1px solid #ccc; /* Add a 1px solid border at the top (horizontal line) */
+.plan-trips {
+  position: relative;
+  color: #000;
+  text-align: center;
+  margin: 50px auto;
+  font-family: 'Libre Baskerville', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: normal;
+  font-style: italic;
+  z-index: 1;
 }
 .row {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 .replColumn {
   flex: 1;
   width: 50%;
-  height: 20%;
+  height: 15%;
   padding: 10px;
   box-sizing: border-box;
+
+  margin: 60px auto;
+  flex-shrink: 0;
+  color: #000;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 80px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 .mapColumn {
   flex: 1;
   width: 50%;
-  height: 100%;
+  height: 15%;
   padding: 10px;
   box-sizing: border-box;
+
+  margin: 60px auto;
+  flex-shrink: 0;
+  color: #000;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 80px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }

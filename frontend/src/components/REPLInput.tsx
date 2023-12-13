@@ -1,9 +1,6 @@
 import "../styles/main.css";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { ControlledInput } from "./ControlledInput";
-import { mockBackendData } from "../mocked_data/mockedJson";
-import { mockedSearchResults } from "../mocked_data/mockedSearchJson";
-import { json } from "stream/consumers";
 import { commandsMap, registerCommand } from "../commands/commandFunctions"
 
 // Define the shape of history entries
@@ -24,8 +21,6 @@ export interface REPLInputProps {
 export function REPLInput(props: REPLInputProps) {
   // Manage the contents of the input box
   const [commandString, setCommandString] = useState<string>("");
-  // Manage the current count of times the button is clicked
-  const [count, setCount] = useState<number>(0);
   // Manage the state of CSV data loading
   const [csvloaded, setcsvload] = useState<boolean>(false);
   const [csvdata, setCsvData] = useState<string[][]>([[]]);
@@ -35,7 +30,6 @@ export function REPLInput(props: REPLInputProps) {
 
   // Handle the submission of a command string
   async function handleSubmit(commandString: string) {
-    setCount(count + 1);
     const Output: string[][] = await handleOutput(commandString);
     const newHistoryEntry: HistoryObject = {
       command: commandString,
@@ -61,7 +55,7 @@ export function REPLInput(props: REPLInputProps) {
   return (
     <div className="repl-input" onKeyDown={(key) => key.code == "Enter" ? handleSubmit(commandString): null}>
       <fieldset>
-        <legend>Enter a command:</legend>
+        <legend></legend>
         <ControlledInput
           value={commandString}
           setValue={setCommandString}
@@ -71,7 +65,7 @@ export function REPLInput(props: REPLInputProps) {
       <button 
       id="button" 
       onClick={() => handleSubmit(commandString)}>
-        Submitted {count} times
+        Enter
       </button>
     </div>
   );

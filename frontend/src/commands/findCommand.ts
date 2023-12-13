@@ -13,8 +13,6 @@ export async function handleFind(args: string[]): Promise<string[][]> {
     );
     const json = await response.json();
 
-    console.log("dog = " + locationString);
-
     let result: string[][] = [[json.result]];
     if (result[0][0] !== "success") {
       result = [[json.result + ": " + json.message]];
@@ -31,7 +29,7 @@ export async function handleFind(args: string[]): Promise<string[][]> {
 }
 
 function makeLocationString(myArray: string[]) {
-  return myArray.join(",");
+  return myArray.join("%20");
 }
 function capitalizeFirstLetterEachWord(str: string): string {
   return str.replace(/\b\w/g, (match) => match.toUpperCase());

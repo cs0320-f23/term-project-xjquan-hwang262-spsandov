@@ -19,6 +19,7 @@ public class Dijkstra {
   }
 
   public List<String> run(){
+//    System.out.println(edges);
     // Initializing
     HashMap<String, Double> dijkstra = new HashMap<>();
     ArrayList<String> unvisited = new ArrayList<>();
@@ -43,14 +44,22 @@ public class Dijkstra {
           dijkstra.put((String)this.edges.get(i).get(0), dijkstra.get(currentNode) + (double)this.edges.get(i).get(2));
         }
       }
-
-      System.out.println("edges: "+ edges.get(1));
+//      System.out.println("dijkstra: "+ dijkstra);
+//      System.out.println("edges: "+ edges);
       // Delete Seen Edges
       for(int i = 0; i < edges.size(); i++) {
+//        System.out.println(currentNode);
+//        System.out.println(edges);
+//        System.out.println(edges.get(i).get(0));
+//        System.out.println(edges.get(i).get(1));
+//        System.out.println();
         if(currentNode.equals(edges.get(i).get(0)) || currentNode.equals(edges.get(i).get(1))){
+//          System.out.println("delete");
           this.edges.remove(this.edges.get(i));
+//          System.out.println("finish delete");
         }
       }
+//      System.out.println("updated edges: "+ edges);
 
       // Find Next Node
       double min = 40075.0;

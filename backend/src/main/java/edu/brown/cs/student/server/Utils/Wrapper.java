@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Wrapper {
-  String start;
-  List<String> locations;
+  public String start;
+  public List<String> locations;
   public Wrapper(String start, List<String> locations) {
     this.start = start;
     this.locations = locations;

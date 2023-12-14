@@ -6,12 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Dijkstra class containing Dijkstra algorithm logic
+ */
 public class Dijkstra {
   public String start;
   public List<List<Object>> edges;
   // List<Object> looks like ["Location 1", "Location 2", Distance] = [String, String, int]
   public ArrayList<String> places;
 
+  /**
+   * Constructor taking in the start location, list of locations needed to visit, and the edges
+   * @param start
+   * @param places
+   * @param edges
+   */
   public Dijkstra(String start, ArrayList<String> places, List<List<Object>> edges) {
     this.start = start;
     this.edges = edges;

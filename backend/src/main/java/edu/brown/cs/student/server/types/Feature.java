@@ -1,5 +1,8 @@
 package edu.brown.cs.student.server.types;
 
+/**
+ * Class representing the Feature aspect of the fetched response from the api call
+ */
 public class Feature {
   private String type;
   private Geometry geometry;

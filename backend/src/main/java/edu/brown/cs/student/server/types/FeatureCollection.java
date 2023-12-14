@@ -3,6 +3,9 @@ package edu.brown.cs.student.server.types;
 import edu.brown.cs.student.server.types.Feature;
 import java.util.List;
 
+/**
+ * Class representing the FeatureCollection aspect of the fetched response.
+ */
 public class FeatureCollection {
   private String type;
   private List<Feature> features;

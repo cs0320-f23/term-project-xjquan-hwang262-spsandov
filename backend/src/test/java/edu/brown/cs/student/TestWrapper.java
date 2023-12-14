@@ -15,6 +15,6 @@ public class TestWrapper {
   @Test
   public void testSetUp() throws DataSourceException {
     Wrapper test = new Wrapper("Salomon Center", Arrays.asList("Salomon Center", "Sharpe Refectory", "Andrews Hall"));
-    System.out.println(test.run());
+//    System.out.println(test.run());
   }
 }

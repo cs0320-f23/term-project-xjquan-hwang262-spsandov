@@ -12,8 +12,8 @@ import java.util.List;
  * Class that finds the most effecient path by calling on the Dijkstra
  */
 public class Wrapper {
-  String start;
-  List<String> locations;
+  public String start;
+  public List<String> locations;
 
   /**
    * Class constructor instantiating the start location and the list of locations to visit

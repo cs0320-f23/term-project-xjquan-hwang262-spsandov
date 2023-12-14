@@ -24,6 +24,9 @@ public class CoordsDataSource {
   private Cache<String, List<Double>> cache;
   private HashMap<String, List<Double>> coordsData;
 
+  /**
+   * Constructor that instantiates a cache and sets it to expire after 1 hour
+   */
   public CoordsDataSource() {
     // set up cache, will delete every 1 hour
     this.cache = CacheBuilder.newBuilder()

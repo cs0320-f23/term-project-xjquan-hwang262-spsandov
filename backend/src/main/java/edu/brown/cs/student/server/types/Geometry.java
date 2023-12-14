@@ -2,6 +2,9 @@ package edu.brown.cs.student.server.types;
 
 import java.util.List;
 
+/**
+ * Geometry class representing the Geometry aspect of the retrieved response from the api call.
+ */
 public class Geometry {
   private String type;
   private List<Double> coordinates;

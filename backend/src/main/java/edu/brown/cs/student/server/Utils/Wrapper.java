@@ -8,9 +8,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class that finds the most effecient path by calling on the Dijkstra
+ */
 public class Wrapper {
   public String start;
   public List<String> locations;
+
+  /**
+   * Class constructor instantiating the start location and the list of locations to visit
+   * @param start
+   * @param locations
+   */
   public Wrapper(String start, List<String> locations) {
     this.start = start;
     this.locations = locations;

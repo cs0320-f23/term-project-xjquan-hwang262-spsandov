@@ -42,11 +42,10 @@ public class LoadPathHandler implements Route {
       }
 
       Wrapper wrapper = new Wrapper(locations.get(0), locations);
-      List<String> path = wrapper.run();
 
-      System.out.println("path from load path: " + path);
+      Arrays.fill(locArray, null);
 
-      return new SuccessResponse(path).serialize();
+      return new SuccessResponse(wrapper.run()).serialize();
 
     } catch (DataSourceException e) {
       return new FailureResponse("error_bad_request", e.getMessage()).serialize();

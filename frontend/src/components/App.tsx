@@ -20,7 +20,7 @@ function App() {
           width="180px"
           height="99px"
           flex-shrink="0"
-          src="Brown-University-Logo.png"
+          src="images/Brown-University-Logo.png"
           alt="Brown Logo"
         />
       </p>

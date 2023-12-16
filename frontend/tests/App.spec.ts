@@ -26,7 +26,9 @@ test("on page load, i see a button", async ({ page }) => {
 test("search without loading a input", async ({page}) => {
   await page.getByLabel("Command input").fill("");
   await page.locator("button").click();
-  await expect(page.locator(".repl-history")).toContainText("Invalid command:");
+  await expect(page.locator(".repl-history")).toContainText(
+    "Please enter the 'find' command followed by your desired destinations"
+  );
 });
 
 test("search a bad input that is not a handler", async ({page,}) => {
@@ -35,9 +37,109 @@ test("search a bad input that is not a handler", async ({page,}) => {
   await expect(page.locator(".repl-history")).toContainText("Invalid command: i");
 });
 
+test("correct path is displayed", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("find Sharpe Refectory, Salomon Center, Andrews Hall, Sayles Hall");
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Sharpe Refectory, Sayles Hall, Salomon Center, Andrews Hall"
+  );
+});
+
+test("correct path is displayed given two locations", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("find Sharpe Refectory, Salomon Center");
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Sharpe Refectory, Salomon Center"
+  );
+});
+
+test("error is thrown given no destination", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("find");
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Error - please specify a destination"
+  );
+});
+
+test("error is thrown given locations outside of brown", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("find Sharpe Refectory, Eiffel Tower, Smithsonian Museum");
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Error with data fetching for find request"
+  );
+});
+
+test("multiple find searches in a row with other inputs", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("find Sharpe Refectory, Salomon Center, Andrews Hall, Sayles Hall");
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Sharpe Refectory, Sayles Hall, Salomon Center, Andrews Hall"
+  );
+
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("mode");
+  await page.locator("button").click();
+  await page.waitForSelector(".repl-history");
+  await expect(page.locator(".repl-history")).toContainText(
+    "Output mode switched to brief"
+  );
+
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("find Morriss Hall, Sharpe Refectory, Nelson Fitness Center");
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Morriss Hall, Nelson Fitness Center, Sharpe Refectory"
+  );
+
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("mode");
+  await page.locator("button").click();
+  await page.waitForSelector(".repl-history");
+  await expect(page.locator(".repl-history")).toContainText(
+    "Output mode switched to verbose"
+  );
+  
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill(
+      "find Andrews Hall, Nelson Fitness Center, Morriss Hall, Sharpe Refectory"
+    );
+  await page.locator("button").click();
+  await expect(page.locator(".repl-history")).toContainText(
+    "Andrews Hall, Morriss Hall, Nelson Fitness Center, Sharpe Refectory"
+  );
+  
+  await page.waitForTimeout(100);
+  await page.getByLabel("Command input").fill("mock this will make a csv string");
+
+  await page.getByLabel("Command input").press("Enter");
+
+  await expect(page.locator(".repl-history")).toContainText(
+    "this, will, make, a, csv, string"
+  );
+});
 
 test("keyboard shortcut can submit commands", async ({ page }) => {
-  //await page.waitForTimeout(1000);
   await page.getByLabel("Command input").click();
   await page
     .getByLabel("Command input")
@@ -48,253 +150,11 @@ test("keyboard shortcut can submit commands", async ({ page }) => {
   );
 });
 
-// test("after entering mode command, history displays in verbose mode", async ({page}) => {
-//   // Fill input with the "verbose" command
-//   //await page.waitForTimeout();
-//   await page.getByLabel("Command input").fill("mode");
-//   await page.locator("button").click();
-//   // Make sure mode switched output is displayed
-//   await expect(page.locator(".repl-history")).toContainText("verbose");
-//   await page.getByLabel("Command input").fill("view");
-//   // Make sure the Command: Output: format of verbose is produced
-//   await expect(page.locator(".repl-history")).toContainText("Command:");
-//   //Switch back to brief
-//   await page.getByLabel("Command input").fill("brief");
-//   await page.locator("button").click();
-//   // Make sure mode switched output is displayed
-//   await expect(page.locator(".repl-history")).toContainText("brief");
-
-// });
-
-// test("load file then load a second, then view make sure it’s the second one", async ({page}) => {
-//   await page.waitForTimeout(2000);
-//   await page.getByLabel("Command input").fill("load_file stars/ten-star.csv");
-//   await page.locator("button").click();
-//   await page.waitForTimeout(100);
-//   await page.waitForSelector(".repl-history");
-
-//   // Load file without headers
-//   await page.getByLabel("Command input").fill("load_file without_header/multiple_line.csv");
-//   await page.locator("button").click();
-//   await page.waitForTimeout(100);
-//   await page.waitForSelector(".repl-history");
-
-//   //Now view the file
-//   await page.getByLabel("Command input").fill("view");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-
-//   await expect(page.getByRole("cell", { name: "Brian" })).toBeVisible();
-// });
-
-// test("test that search results get displayed", async ({ page }) => {
-//   await page.waitForTimeout(3000);
-//   await page.getByLabel("Command input").fill("load_file with_header/header_multiple_line.csv");
-//   await page.locator("button").click();
-
-//   await page.getByLabel("Command input").fill("search 2 Orange");
-//   await page.locator("button").click();
-//   await expect(page.getByRole("cell", { name: "Orange" })).toBeVisible();
-
-//   await page.getByLabel("Command input").fill("search Name Jack");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "Jack" }).first()).toBeVisible();
-//   await expect(page.getByRole("cell", { name: "Jack" }).nth(1)).toBeVisible();
-// });
-
-// test("test invalid search command", async ({ page }) => {
-//   await page.waitForTimeout(4000);
-//   await page.getByLabel("Command input").fill("load_file with_header/header_multiple_line.csv");
-//   await page.locator("button").click();
-//   await page.waitForTimeout(100);
-
-//   await page.waitForSelector(".repl-history");
-
-//   //Search for out of bound/ doesn't exist
-//   await page.getByLabel("Command input").fill("search nonexistent nonexistent");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("error_bad_request: unrecognized target identifier");
-
-//   await page.getByLabel("Command input").fill("search 0 nonexistent");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Result:");
-
-//   // Too many arguments
-//   await page.getByLabel("Command input").fill("search 0 Jack test");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Error - Do Not Enter Args Other Than Column and Value");
-// });
-
-// test("too many view arguments", async ({ page }) => {
-//   await page.waitForTimeout(5000);
-//   await page.getByLabel("Command input").fill("load_file census/sample.csv");
-//   await page.locator("button").click();
-//   //await page.waitForTimeout(5000);
-
-//   //await page.getByPlaceholder('Enter command here!').fill('view a b c');
-//   await page.getByLabel("Command input").fill("view a b c");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Error - View Should Not Include Other Args");
-// });
-
-// test("test invalid filepath", async ({ page }) => {
-//   await page.getByLabel("Command input").fill("load_file cool.csv");
-//   await page.locator("button").click();
-//   //await page.waitForTimeout(5000);
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("error_datasource: filepath not found");
-// });
-
-// test("try loading more than one csv at once", async ({page,}) => {
-//   // load command
-//   await page.getByLabel("Command input").fill("load_file normal.csv price.csv");
-//   await page.locator("button").click();
-//   //await page.waitForTimeout(5000);
-
-//   // Wait for the content to appear in the history
-//   await page.waitForSelector(".repl-history");
-
-//   // Make sure error is thrown
-//   await expect(page.locator(".repl-history")).toContainText("Extra Args after loadCSV");
-// });
-
-// test("broadband data can be retrieved", async ({page}) => {
-//   // normal case
-//   await page.getByLabel("Command input").fill("broadband california orange%20county");
-//   await page.locator("button").click();
-//   //await page.waitForTimeout(5000);
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("93.0");
-//   await expect(page.locator(".repl-history")).toContainText("date & time");
-// });
-
-// test("broadband handles state and county parameter issues", async ({page}) => {
-//   // state doesn't exist
-//   await page.getByLabel("Command input").fill("broadband nonexistent orange%20county");
-//   await page.locator("button").click();
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("error_bad_request: unrecognized state identifier nonexistent");
-
-//   // county doesn't exist
-//   await page.getByLabel("Command input").fill("broadband california nonexistent");
-//   await page.locator("button").click();
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("error_bad_request: unrecognized county identifier nonexistent");
-
-//   // state and county exist but not found in census api data
-//   await page.getByLabel("Command input").fill("broadband california colusa%20county");
-//   await page.locator("button").click();
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("error_bad_json: broadband data unavailable for colusa county, california");
-// });
-
-// test("broadband handles too little or too many arguments", async ({page}) => {
-//   // too many arguments
-//   await page.getByLabel("Command input").fill("broadband a b c");
-//   await page.locator("button").click();
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Error - Do Not Enter Args Other Than State and County");
-
-//   // not enough arguments
-//   await page.getByLabel("Command input").fill("broadband");
-//   await page.locator("button").click();
-
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Error - Too Few Arguments, Add a <state> and <county> for broadband retrieval");
-// })
-
-// test("load, broadband, view, and search interactions", async ({page}) => {
-//   await page.waitForTimeout(6000);
-//   // load (w/o header)
-//   await page.getByLabel("Command input").fill("load_file without_header/multiple_line.csv");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("success");
+test("unrecognized command has proper error message", async ({page}) => {
+  await page.getByLabel("Command input").fill("test");
+  await page.locator("button").click();
+  //await page.waitForTimeout(5000);
   
-//   // broadband
-//   await page.getByLabel("Command input").fill("broadband new%20jersey salem%20county");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole('cell', { name: '87.2' })).toBeVisible();
-  
-//   // view
-//   await page.getByLabel("Command input").fill("view");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "Jack" }).first()).toBeVisible();
-  
-//   // search
-//   await page.getByLabel("Command input").fill("search 1 20");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "20" }).nth(2)).toBeVisible();
-  
-//   // load (ten star) 
-//   await page.getByLabel("Command input").fill("load_file stars/ten-star.csv");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("success");
-  
-//   // view
-//   await page.getByLabel("Command input").fill("view");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "StarID" }).first()).toBeVisible();
-  
-//   // search
-//   await page.getByLabel("Command input").fill("search 1 Sol");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "Sol" }).nth(1)).toBeVisible();
-
-//   // load (w header)
-//   await page.getByLabel("Command input").fill("load_file with_header/header_multiple_line.csv");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("success");
-  
-//   // view
-//   await page.getByLabel("Command input").fill("view");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "Color" })).toBeVisible();
-  
-//   // search
-//   await page.getByLabel("Command input").fill("search 1 22");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.getByRole("cell", { name: "22" }).nth(1)).toBeVisible();
-
-//   // mode
-//   await page.getByLabel("Command input").fill("mode");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Output mode switched to verbose");
-  
-//   // broadband
-//   await page.getByLabel("Command input").fill("broadband texas starr%20county");
-//   await page.locator("button").click();
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Command: broadband texas starr%20county");
-//   await expect(page.locator(".repl-history")).toContainText("73.5");
-// });
-
-// test("unrecognized command has proper error message", async ({page}) => {
-//   await page.getByLabel("Command input").fill("test");
-//   await page.locator("button").click();
-//   //await page.waitForTimeout(5000);
-  
-//   await page.waitForSelector(".repl-history");
-//   await expect(page.locator(".repl-history")).toContainText("Invalid command: test");
-// });
+  await page.waitForSelector(".repl-history");
+  await expect(page.locator(".repl-history")).toContainText("Invalid command: test");
+});

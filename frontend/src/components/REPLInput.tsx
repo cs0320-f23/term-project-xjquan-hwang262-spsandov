@@ -21,12 +21,6 @@ export interface REPLInputProps {
 export function REPLInput(props: REPLInputProps) {
   // Manage the contents of the input box
   const [commandString, setCommandString] = useState<string>("");
-  // Manage the state of CSV data loading
-  const [csvloaded, setcsvload] = useState<boolean>(false);
-  const [csvdata, setCsvData] = useState<string[][]>([[]]);
-  const [header, setHeader] = useState<string[]>([]);
-  const [isHeader, setIsHeader] = useState<boolean>(false);
-  const [filePathSearch, setFilePath] = useState<string>("");
 
   // Handle the submission of a command string
   async function handleSubmit(commandString: string) {
@@ -43,6 +37,9 @@ export function REPLInput(props: REPLInputProps) {
     async function handleOutput(commandString: string) {
       const [command, ...args] = commandString.split(" ");
       const mapFunc = commandsMap.get(command)
+      if (command === "") {
+        return [["Please enter the 'find' command followed by your desired destinations"]];
+      }
       if (typeof mapFunc !== 'undefined') {
         return await mapFunc(args, props);
       } else {

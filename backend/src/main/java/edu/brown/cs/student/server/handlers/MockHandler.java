@@ -8,8 +8,18 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * Handler class that handles the /mock endpoint
+ */
 public class MockHandler implements Route {
 
+  /**
+   * mocks path results by returning the same list of locations
+   * @param request  The request object providing information about the HTTP request
+   * @param response The response object providing functionality for modifying the response
+   * @return list of locations
+   * @throws Exception
+   */
   @Override
   public Object handle(Request request, Response response) throws Exception {
     try {

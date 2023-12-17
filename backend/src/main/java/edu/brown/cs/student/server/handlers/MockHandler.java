@@ -29,7 +29,7 @@ public class MockHandler implements Route {
       }
       String[] locArray = request.queryParams("location").split(",");
       List<String> locations = Arrays.asList(locArray);
-      return new SuccessResponse(locations);
+      return new SuccessResponse(locations).serialize();
     } catch (Exception e) {
       return new FailureResponse("error_bad_request", e.getMessage()).serialize();
     }

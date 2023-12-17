@@ -5,6 +5,7 @@ import static spark.Spark.after;
 import edu.brown.cs.student.server.handlers.CoordsHandler;
 import edu.brown.cs.student.server.handlers.DistanceHandler;
 import edu.brown.cs.student.server.handlers.LoadPathHandler;
+import edu.brown.cs.student.server.handlers.MockHandler;
 import spark.Spark;
 
 import static spark.Spark.after;
@@ -31,6 +32,7 @@ public class Server {
     Spark.get("loadpath", new LoadPathHandler());
     Spark.get("geoCoding",new CoordsHandler());
     Spark.get("distance", new DistanceHandler());
+    Spark.get("mock",new MockHandler());
     Spark.init();
     Spark.awaitInitialization();
 

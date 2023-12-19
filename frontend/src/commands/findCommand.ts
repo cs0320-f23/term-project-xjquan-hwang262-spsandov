@@ -23,11 +23,11 @@ export async function handleFind(args: string[]): Promise<string[][]> {
     if (result[0][0] !== "success") {
       result = [[json.result + ": " + json.message]];
     }
-    let path: string[][] = [
-      [capitalizeFirstLetterEachWord(json.path.join(", "))],
+    const pathUrl = googleMapsStringify(json.path);
+    const pathWithUrl: string[][] = [
+      [capitalizeFirstLetterEachWord(json.path.join(", ")) + ", and the Google Maps link to this input is: " + pathUrl],
     ];
-    console.log(path);
-    return path;
+    return pathWithUrl;
   } catch (e) {
     console.log(e);
     return [["Error with data fetching for find request"]];
@@ -49,4 +49,21 @@ function makeLocationString(myArray: string[]) {
  */
 function capitalizeFirstLetterEachWord(str: string): string {
   return str.replace(/\b\w/g, (match) => match.toUpperCase());
+}
+
+function googleMapsStringify(waypoints: string[]): string {
+  if (waypoints.length < 2) {
+    return "Error - please provide at least two waypoints";
+  }
+
+  const apiEndpoint = "https://www.google.com/maps/dir/?api=1";
+
+  const origin = waypoints.shift() || "";
+  const originString = `&origin=${origin},Providence,RI`;
+
+  const waypointsString = `&waypoints=${waypoints
+    .map((wp) => encodeURIComponent(wp + ",Providence,RI 02912"))
+    .join("%7C")
+    .replace(/%20/g, "")}`;
+  return apiEndpoint + originString + waypointsString;
 }
